@@ -45,6 +45,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -295,13 +297,20 @@ public class MainActivity extends AppCompatActivity {
                     //En el arrayList inserta un nuevo registro con los cambios y borra el anterior sin cambios
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
                     mMessageAdapter.add(friendlyMessage);
-                    Toast.makeText(MainActivity.this, "Inserta cambio", Toast.LENGTH_SHORT).show();
                     mMessageAdapter.remove(mMessageAdapter.getItem(posUltimo));
-                    Toast.makeText(MainActivity.this, "Borra el penultimo", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    /*
+                    //Obtener TOKEN Dispositivo
+                    String token = FirebaseInstanceId.getInstance().getToken();
+                    Toast.makeText(MainActivity.this, "Token: " + token, Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, token);
+
+                    FriendlyMessage friendlyMessagePrueba = new FriendlyMessage(token, mUsername, null);
+                    mMessagesDatabaseReference.push().setValue(friendlyMessagePrueba);
+                    */
                 }
 
                 @Override
