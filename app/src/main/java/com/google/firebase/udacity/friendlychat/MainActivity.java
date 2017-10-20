@@ -279,14 +279,25 @@ public class MainActivity extends AppCompatActivity {
     private void attachDataBaseReadListener(){
         if (mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
+
+                int posUltimo;
+
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
                     mMessageAdapter.add(friendlyMessage);
+                    int pos = mMessageAdapter.getPosition(friendlyMessage);
+                    posUltimo = pos;
                 }
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    //En el arrayList inserta un nuevo registro con los cambios y borra el anterior sin cambios
+                    FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
+                    mMessageAdapter.add(friendlyMessage);
+                    Toast.makeText(MainActivity.this, "Inserta cambio", Toast.LENGTH_SHORT).show();
+                    mMessageAdapter.remove(mMessageAdapter.getItem(posUltimo));
+                    Toast.makeText(MainActivity.this, "Borra el penultimo", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
