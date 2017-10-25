@@ -157,10 +157,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: Send messages on click
-                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mUsername, null);
+                String tokenFrom = FirebaseInstanceId.getInstance().getToken();
+                String tokenTo = "fn1lv8tQeYo:APA91bH1_LtJigkHztxsszlO_Asd1NFPNAp9gkhEhtTgyzGZ5Chv8wmF7dFHd-KipZ-dv_OD1EFAG3QiKck-ftxLwGKSLyGwRw7gkGq8ETzIATPHG3NMIwoJs9btPV3K_3-IjSmCzs-k";
+                FriendlyMessage friendlyMessage = new FriendlyMessage(mMessageEditText.getText().toString(), mUsername, null, tokenTo, tokenFrom);
                 mMessagesDatabaseReference.push().setValue(friendlyMessage);
                 // Clear input box
                 mMessageEditText.setText("");
+
+                //Notificaciones Pruebas TOKEN
+                //String token = FirebaseInstanceId.getInstance().getToken();
+                //Log.d("TOKEN", token);
             }
         });
 
@@ -224,8 +230,10 @@ public class MainActivity extends AppCompatActivity {
                     (this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            String tokenTo = "fn1lv8tQeYo:APA91bH1_LtJigkHztxsszlO_Asd1NFPNAp9gkhEhtTgyzGZ5Chv8wmF7dFHd-KipZ-dv_OD1EFAG3QiKck-ftxLwGKSLyGwRw7gkGq8ETzIATPHG3NMIwoJs9btPV3K_3-IjSmCzs-k";
+                            String tokenFrom = FirebaseInstanceId.getInstance().getToken();
                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                            FriendlyMessage friendlyMessage = new FriendlyMessage(null, mUsername, downloadUrl.toString());
+                            FriendlyMessage friendlyMessage = new FriendlyMessage(null, mUsername, downloadUrl.toString(), tokenTo, tokenFrom);
                             mMessagesDatabaseReference.push().setValue(friendlyMessage);
                         }
                     });
